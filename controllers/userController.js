@@ -36,7 +36,7 @@ class Manager{
                 password:password,
                 
             })
-            const token = jwt.sign({id:user.id, email:user.email}, process.env.TOKEN_SECRET, { expiresIn: '360000s' });
+            const token = jwt.sign({id:user.id, email:user.email}, process.env.TOKEN_SECRET, { expiresIn: '1h' });
             return res.cookie('user',token, { maxAge: 1200000, httpOnly: true }).send(user.email)
         }catch(e){
             console.log(e)
@@ -68,7 +68,7 @@ class Manager{
 
     async update(req,res){
         try {
-            let {name, password} = req.body
+            let {firstname, lastname, email,  password} = req.body
             if(name){
                 if(name.replace(' ','')=='')
                     return res.status(401).send('Заполните ФИО')
@@ -77,16 +77,19 @@ class Manager{
             if(re.test(name) | re.test(password))
                 return res.status(401).send('Не пытайтесь взломать нас')
             
-                let usr = await User.update({name:name},{where:{id:req.user.id}})
+                let usr = await User.update({
+                    firstname:firstname, 
+                    image:req.files[0].filename
+                },{where:{id:req.user.id}})
                 return res.send(usr)
         
         } catch (error) {
-            return res.status(404).send('Неверный пароль')
+            return res.status(404).send(error.toJSON())
         }
     }
     
     async delete(req,res){
-        
+
     }
     
     
