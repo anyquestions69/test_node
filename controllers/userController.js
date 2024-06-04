@@ -1,8 +1,6 @@
 const {User} = require('../models/user')
-const { Op } = require("sequelize");
-const Sequelize = require('sequelize')
 const jwt = require('jsonwebtoken')
-const { body, validationResult, matchedData} = require('express-validator');
+const {  validationResult, matchedData} = require('express-validator');
 const { error } = require('console');
 
 class Manager{
@@ -12,7 +10,7 @@ class Manager{
             const errors = validationResult(req);
             if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
             
-            const {firstname, lastname, email, password, repass} = req.body
+            const {firstname, lastname, email, password, repass} = matchedData(req)
             const user = await User.create({
                 firstname,
                 lastname,
@@ -28,10 +26,10 @@ class Manager{
 
     async login(req,res){
         try{
-            let {email, password} = req.body
-            let user = await User.findOne({where:{email}})
-            if(!user) return res.status(401).send({error:'Такого email не существует'})
-
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+            const {email, password} = matchedData(req)
+            const user = await User.findOne({where:{email}})
             const validPassword = await bcrypt.compare(password, user.password);
             if (!validPassword) return res.status(400).json({ error: 'Неверный пароль' });
 

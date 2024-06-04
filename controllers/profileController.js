@@ -3,8 +3,6 @@ const { Op } = require("sequelize");
 const Sequelize = require('sequelize')
 const jwt = require('jsonwebtoken')
 const { validationResult,  } = require('express-validator');
-const { error } = require('console');
-
 class Manager{
    
     async getOne(req,res){
@@ -45,9 +43,6 @@ class Manager{
         }
     }
     
-    async delete(req,res){
-
-    }
     
     
 }
