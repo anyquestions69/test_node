@@ -1,6 +1,6 @@
 const {DataTypes} = require("sequelize");
 const sequelize = require('../config/db')
-const {Gender} = require('gender')
+const {Gender} = require('./gender.js')
 const hash =require('../services/passwordHash')
 const User = sequelize.define("user", {
     id: {

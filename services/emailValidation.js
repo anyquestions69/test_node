@@ -13,4 +13,4 @@ class EmailValidation{
         }
     }
 }
-module.exports =  EmailValidation()
+module.exports = new EmailValidation()

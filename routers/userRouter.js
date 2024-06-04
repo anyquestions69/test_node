@@ -2,7 +2,7 @@ const express = require("express");
 const userController = require("../controllers/userController.js");
 const userRouter = express.Router();
 const { body } = require('express-validator');
-const verifyToken = require('../middleware/verifyToken.js')
+const verifyToken = require('../middlewares/verifyToken.js')
 const {isInUse, notInUse} = require('../services/emailValidation.js')
  
 userRouter.post('/register', [
