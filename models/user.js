@@ -14,8 +14,7 @@ const User = sequelize.define("user", {
         allowNull: false
     },
     lastname:{
-        type:DataTypes.TEXT,
-        allowNull:false
+        type:DataTypes.TEXT
     },
     fullName: {
         type: DataTypes.VIRTUAL,
