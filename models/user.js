@@ -39,6 +39,6 @@ const User = sequelize.define("user", {
     }
 });
 User.hasOne(Gender)
-sequelize.sync({force: true})
+sequelize.sync({force: false})
 
 module.exports = {User}
