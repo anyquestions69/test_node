@@ -1,7 +1,7 @@
 const {User} = require('../models/user')
 const jwt = require('jsonwebtoken')
 const {  validationResult, matchedData} = require('express-validator');
-const { error } = require('console');
+
 
 class Manager{
    
@@ -20,7 +20,8 @@ class Manager{
             const token = jwt.sign({id:user.id, email:user.email}, process.env.TOKEN_SECRET, { expiresIn: '1h' });
             return res.cookie('user',token, { maxAge: 1200000, httpOnly: true }).send(user)
         }catch(e){
-            return res.status(404).send(error.toJSON())
+            console.log(e)
+            return res.status(401).send({error:e.data})
         }
     }
 

@@ -9,7 +9,7 @@ const Gender = sequelize.define("gender", {
     },
 })
 const genderArray=[{name:"Мужской"}, {name:"Женский"}]
-sequelize.sync({force: false}).then(async function(res){
+sequelize.sync({force: true}).then(async function(res){
     if((await Gender.findAll()).length==0)
         await Gender.bulkCreate(genderArray, { validate: true })
 })

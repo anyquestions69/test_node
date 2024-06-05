@@ -1,7 +1,8 @@
 const {DataTypes} = require("sequelize");
 const sequelize = require('../config/db')
 const {Gender} = require('./gender.js')
-const hash =require('../services/passwordHash')
+const bcrypt = require('bcrypt')
+
 const User = sequelize.define("user", {
     id: {
         type: DataTypes.BIGINT,
@@ -31,14 +32,23 @@ const User = sequelize.define("user", {
         type:DataTypes.STRING,
         allowNull:false,
         set(value) {
-            this.setDataValue('password', hash(value));
-          },
+            const saltRounds = 10;
+            const hash = bcrypt.hashSync(value, saltRounds)
+            console.log(hash)
+            this.setDataValue('password', hash);
+          
+        }
     },
     imgPath:{
       type:DataTypes.STRING,
     }
 });
+User.addHook('beforeFind', async (options, user) => {
+    if (options.attributes && options.attributes.includes('password')) {
+      options.attributes = options.attributes.filter(attr => attr!== 'password');
+    }
+  });
 User.hasOne(Gender)
-sequelize.sync({force: false})
+sequelize.sync({force: true})
 
 module.exports = {User}

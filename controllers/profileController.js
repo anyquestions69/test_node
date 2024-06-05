@@ -22,10 +22,11 @@ class Manager{
             if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
             const page=req.query.page||1
             const limit = 10
-            const result = await User.findAndCountAll( {offset: page>=1?((page-1)*2):0, limit: limit})
+            const result = await User.findAndCountAll({offset: page>=1?((page-1)*2):0, limit: limit})
             return res.send(pagination(result,page, limit))
         }catch (error) {
-            return res.send({error})
+            console.warn(error)
+            return res.send({error:error.data})
         }
         
     }
