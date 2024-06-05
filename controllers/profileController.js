@@ -1,7 +1,5 @@
 const {User} = require('../models/user')
-const { Op } = require("sequelize");
-const Sequelize = require('sequelize')
-const jwt = require('jsonwebtoken')
+const pagination = require('../services/pagination')
 const { validationResult, matchedData,  } = require('express-validator');
 class Manager{
    
@@ -22,12 +20,12 @@ class Manager{
         try{
             const errors = validationResult(req);
             if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
-            const page=req.query.page
+            const page=req.query.page||1
             const limit = 10
             const result = await User.findAndCountAll( {offset: page>=1?((page-1)*2):0, limit: limit})
-            return res.send(result)
+            return res.send(pagination(result,page, limit))
         }catch (error) {
-            return res.send(error.toJSON())
+            return res.send({error})
         }
         
     }
