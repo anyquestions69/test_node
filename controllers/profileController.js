@@ -36,7 +36,7 @@ class Manager{
             const errors = validationResult(req);
             if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
             const {id} = matchedData(req)
-            const {firstname, lastname, email,  password, genderId} = req.body
+            const {firstname, lastname, email,   genderId} = req.body
             const userData = {}
             if(firstname)userData.firstname=firstname
             if(lastname)userData.lastname=lastname
