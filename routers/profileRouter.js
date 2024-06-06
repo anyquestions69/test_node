@@ -19,7 +19,6 @@ userRouter.put('/:id',
     body('firstname').custom(validation.name),
     body('lastname').custom(validation.name),
     body('email').custom(validation.email),
-    body('password').custom(validation.password),
     body('genderId').custom(validation.gender),
     param('id').notEmpty().isDecimal().custom(async value=>{
         if(!await User.findByPk(value))throw new Error('Такого id не существует')

@@ -41,7 +41,6 @@ class Manager{
             if(firstname)userData.firstname=firstname
             if(lastname)userData.lastname=lastname
             if(email)userData.email=email
-            if(password)userData.password=password
             if(genderId)userData.genderId=genderId
             if(req.files&&req.files.length>0)userData.imgPath=req.files[0].filename
             const usr = await User.update(userData,{where:{id}})
