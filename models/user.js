@@ -34,7 +34,6 @@ const User = sequelize.define("user", {
         set(value) {
             const saltRounds = 10;
             const hash = bcrypt.hashSync(value, saltRounds)
-            console.log(hash)
             this.setDataValue('password', hash);
           
         }
@@ -42,12 +41,14 @@ const User = sequelize.define("user", {
     imgPath:{
       type:DataTypes.STRING,
     }
-});
-User.addHook('beforeFind', async (options, user) => {
-    if (options.attributes && options.attributes.includes('password')) {
-      options.attributes = options.attributes.filter(attr => attr!== 'password');
+}, {
+    defaultScope: {
+      attributes: {
+        exclude: ['password']
+      }
     }
-  });
+});
+
 User.hasOne(Gender)
 sequelize.sync({force: true})
 

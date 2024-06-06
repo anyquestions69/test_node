@@ -18,4 +18,4 @@ const fileFilter = (req, file, cb) => {
         cb(null, false);
     }
 }
-  module.exports = multer({storage:storage, fileFilter, limits: { fileSize: process.env.MAX_SIZE}}); 
+  module.exports = multer({storage:storage, fileFilter}); 
