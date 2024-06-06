@@ -49,7 +49,12 @@ const User = sequelize.define("user", {
     }
 });
 
-User.hasOne(Gender)
-sequelize.sync({force: true})
+User.belongsTo(Gender)
+Gender.hasMany(User)
+const genderArray=[{name:"Мужской"}, {name:"Женский"}]
+sequelize.sync({force: true}).then(async function(res){
+    if((await Gender.findAll()).length==0)
+        await Gender.bulkCreate(genderArray, { validate: true })
+})
 
 module.exports = {User}

@@ -35,15 +35,15 @@ class Manager{
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
-            const {id, firstname, lastname, email,  password} = matchedData(req)
-            console.log(matchedData(req))
+            const {id} = matchedData(req)
+            const {firstname, lastname, email,  password, genderId} = req.body
             const userData = {}
             if(firstname)userData.firstname=firstname
             if(lastname)userData.lastname=lastname
             if(email)userData.email=email
             if(password)userData.password=password
+            if(genderId)userData.genderId=genderId
             if(req.files&&req.files.length>0)userData.imgPath=req.files[0].filename
-            console.log(req.files)
             const usr = await User.update(userData,{where:{id}})
             return res.send({updatedFields:userData})
         
